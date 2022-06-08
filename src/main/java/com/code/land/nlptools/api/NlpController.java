@@ -1,6 +1,6 @@
 package com.code.land.nlptools.api;
 
-import com.code.land.nlptools.app.services.HanlpService;
+import com.code.land.nlptools.app.services.impl.NlpTransferTools;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,15 +16,16 @@ import java.util.List;
  * @date 2022/5/28 21:27
  */
 @Controller
-@RequestMapping("/v1/hanlp")
-public class HanlpController {
+@RequestMapping("/v1/nlp")
+public class NlpController {
 
     @Autowired
-    private HanlpService hanlpService;
+    private NlpTransferTools nlpTransferTools;
 
     @PostMapping(value = "/extract_keyword")
     public ResponseEntity<List<String>> importProblem(@RequestParam String content,
-                                                      @RequestParam Integer keywordNumber) {
-        return new ResponseEntity(hanlpService.extractKeyword(content, keywordNumber), HttpStatus.OK);
+                                                      @RequestParam Integer keywordNumber,
+                                                      @RequestParam(required = false) String productType) {
+        return new ResponseEntity(nlpTransferTools.extractKeyword(content, keywordNumber, productType), HttpStatus.OK);
     }
 }
